@@ -957,6 +957,32 @@
         unityCanvas.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     });
 </script>
+
+<script>
+  // Initialize Unity WebGL
+  var unityInstance = UnityLoader.instantiate("unity-canvas2", "Build/UnityBuild.json");
+
+  // Attach the gyro functionality
+  (function () {
+      function initGyro() {
+          // Initialize gyro tracking
+          gyro.startTracking(function (o) {
+              // Normalize alpha, beta, gamma values for Unity
+              const tiltX = o.gamma / 90; // Left/Right tilt normalized
+              const tiltY = o.beta / 90;  // Front/Back tilt normalized
+
+              // Send data to Unity
+              const unityInstance = window.unityInstance || null; // Ensure Unity instance is accessible
+              if (unityInstance) {
+                  unityInstance.SendMessage('YourUnityObject', 'HandleTilt', JSON.stringify({ tiltX, tiltY }));
+              }
+          });
+      }
+
+      // Start gyro tracking
+      initGyro();
+  })();
+</script>
 </body>
 
 </html>
