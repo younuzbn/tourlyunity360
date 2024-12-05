@@ -918,13 +918,13 @@
 
 
   <!-- Unity scripts -->
-  <script src="Build/unity360x2ok.loader.js"></script>
+  <script src="Build/unitygyro.loader.js"></script>
   <script>
     // Initialize the Unity WebGL instance
-    createUnityInstance(document.querySelector("#unity-canvas3"), {
-      dataUrl: "Build/unity360x2ok2.data",
-      frameworkUrl: "Build/unity360x2ok2.framework.js",
-      codeUrl: "Build/unity360x2ok2.wasm",
+    createUnityInstance(document.querySelector("#unity-canvas2"), {
+      dataUrl: "Build/unitygyro.data.unityweb",
+      frameworkUrl: "Build/unitygyro.framework.js.unityweb",
+      codeUrl: "Build/unitygyro.wasm.unityweb",
       streamingAssetsUrl: "StreamingAssets",
       companyName: "Your Company Name",
       productName: "Your Product Name",
