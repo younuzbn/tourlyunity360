@@ -164,19 +164,20 @@
         <!-- Unity WebGL Canvas -->
         <canvas id="unity-canvas2" tabindex="-1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></canvas>
         
+      
         <!-- Overlay Content -->
         <div class="container" style="position: relative; z-index: 2; text-align: center; color: #fff;">
-            <h2 class="h1 hero-title" style="font-size: 2.5rem; margin-bottom: 1rem;">Journey to explore world</h2>
-    
-            <p class="hero-text" style="font-size: 1rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                Ac mi duis mollis. Sapiente? Scelerisque quae, penatibus? Suscipit class corporis nostra rem quos
-                voluptatibus habitant? Fames, vivamus minim nemo enim, gravida lobortis quasi, eum.
-            </p>
-    
-            <div class="btn-group" style="display: flex; gap: 1rem; justify-content: center;">
-                <button class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem; border: none; border-radius: 5px; cursor: pointer; background-color: #007bff; color: #fff;">Learn more</button>
-                <button class="btn btn-secondary" style="padding: 0.75rem 1.5rem; font-size: 1rem; border: none; border-radius: 5px; cursor: pointer; background-color: #6c757d; color: #fff;">Book now</button>
-            </div>
+          <h2 class="h1 hero-title" style="font-size: 2.5rem; margin-bottom: 1rem;">Journey to explore world</h2>
+      
+          <p class="hero-text" style="font-size: 1rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Ac mi duis mollis. Sapiente? Scelerisque quae, penatibus? Suscipit class corporis nostra rem quos
+            voluptatibus habitant? Fames, vivamus minim nemo enim, gravida lobortis quasi, eum.
+          </p>
+      
+          <div class="btn-group" style="display: flex; gap: 1rem; justify-content: center;">
+            <button class="btn btn-primary" style="padding: 0.75rem 1.5rem; font-size: 1rem; border: none; border-radius: 5px; cursor: pointer; background-color: #007bff; color: #fff;">Learn more</button>
+            <button class="btn btn-secondary" style="padding: 0.75rem 1.5rem; font-size: 1rem; border: none; border-radius: 5px; cursor: pointer; background-color: #6c757d; color: #fff;">Book now</button>
+          </div>
         </div>
       </section>
 
@@ -830,7 +831,7 @@
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   <!-- Unity scripts -->
-<!-- <script src="Build/unity360x2ok.loader.js"></script>
+<script src="Build/unity360x2ok.loader.js"></script>
 <script>
   // Initialize the Unity WebGL instance
   createUnityInstance(document.querySelector("#unity-canvas"), {
@@ -846,16 +847,16 @@
   }).catch((error) => {
     console.error("Error loading Unity instance:", error);
   });
-</script> -->
+</script>
   <!-- Unity scripts -->
-  <!-- <canvas id="unity-canvas2" tabindex="-1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></canvas> -->
+  <canvas id="unity-canvas2" tabindex="-1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></canvas>
 
-<!-- <script src="Build/unity360x2ok4.loader.js"></script>
+<script src="Build/unity360x2ok4.loader.js"></script>
 <script>
   var unityInstance;
 
   // Initialize Unity WebGL instance
-  createUnityInstance(document.querySelector("#unity-canvas"), {
+  createUnityInstance(document.querySelector("#unity-canvas2"), {
     dataUrl: "Build/unity360x2ok4.data.unityweb",
     frameworkUrl: "Build/unity360x2ok4.framework.js.unityweb",
     codeUrl: "Build/unity360x2ok4.wasm.unityweb",
@@ -913,7 +914,7 @@
     }, false);
 
   })();
-</script> -->
+</script>
 
 
   <!-- Unity scripts -->
@@ -934,55 +935,10 @@
       console.error("Error loading Unity instance:", error);
     });
   </script>
+  <script>
+    
+  </script>
 
-<script src="gyro.js"></script> <!-- Include the gyro code -->
-<script>
-    // Sensitivity for tilt
-    const sensitivity = 0.5; // Adjust as needed
-    const transformFactor = 50; // Pixels to move per degree of tilt
-
-    // Reference to the Unity canvas
-    const unityCanvas = document.getElementById('unity-canvas2');
-
-    // Start tracking device motion
-    gyro.startTracking(function (o) {
-        const beta = o.beta || 0; // Forward/backward tilt
-        const gamma = o.gamma || 0; // Left/right tilt
-
-        // Map tilt values to canvas movement
-        const offsetX = gamma * sensitivity * transformFactor;
-        const offsetY = beta * sensitivity * transformFactor;
-
-        // Apply translation to Unity canvas
-        unityCanvas.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-    });
-</script>
-
-<script>
-  // Initialize Unity WebGL
-  var unityInstance = UnityLoader.instantiate("unity-canvas2", "Build/UnityBuild.json");
-
-  // Attach the gyro functionality
-  (function () {
-      function initGyro() {
-          // Initialize gyro tracking
-          gyro.startTracking(function (o) {
-              // Normalize alpha, beta, gamma values for Unity
-              const tiltX = o.gamma / 90; // Left/Right tilt normalized
-              const tiltY = o.beta / 90;  // Front/Back tilt normalized
-
-              // Send data to Unity
-              const unityInstance = window.unityInstance || null; // Ensure Unity instance is accessible
-              if (unityInstance) {
-                  unityInstance.SendMessage('YourUnityObject', 'HandleTilt', JSON.stringify({ tiltX, tiltY }));
-              }
-          });
-      }
-
-      // Start gyro tracking
-      initGyro();
-  })();
-</script>
 </body>
 
 </html>
