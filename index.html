@@ -162,7 +162,7 @@
 
       <section class="hero" id="home" style="position: relative; width: 100%; min-height: 600px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
         <!-- Unity WebGL Canvas -->
-        <canvas id="unity-canvas2" tabindex="-1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></canvas>
+        <canvas id="unity-canvas4" tabindex="-1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></canvas>
         
         <!-- Overlay Content -->
         <div class="container" style="position: relative; z-index: 2; text-align: center; color: #fff;">
@@ -385,7 +385,7 @@
 
                 <figure class="card-banner">
                   <!-- Unity WebGL canvas -->
-                  <canvas id="unity-canvas" tabindex="-1" style="width: 100%; height: 100%;"></canvas>
+                  <canvas id="unity-canvas4" tabindex="-1" style="width: 100%; height: 100%;"></canvas>
                 </figure>
 
                 <div class="card-content">
@@ -934,6 +934,24 @@
       console.error("Error loading Unity instance:", error);
     });
   </script>
+
+<script src="Build/unitygyro2.loader.js"></script>
+<script>
+  // Initialize the Unity WebGL instance
+  createUnityInstance(document.querySelector("#unity-canvas4"), {
+    dataUrl: "Build/unitygyro2.data.unityweb",
+    frameworkUrl: "Build/unitygyro2.framework.js.unityweb",
+    codeUrl: "Build/unitygyro2.wasm.unityweb",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "Your Company Name",
+    productName: "Your Product Name",
+    productVersion: "1.0",
+  }).then((unityInstance) => {
+    console.log("Unity instance loaded successfully!");
+  }).catch((error) => {
+    console.error("Error loading Unity instance:", error);
+  });
+</script>
 
 <script src="gyro.js"></script> <!-- Include the gyro code -->
 <script>
