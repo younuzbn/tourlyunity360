@@ -849,23 +849,73 @@
   });
 </script>
   <!-- Unity scripts -->
-  <script src="Build/unity360x2ok4.loader.js"></script>
-  <script>
-    // Initialize the Unity WebGL instance
-    createUnityInstance(document.querySelector("#unity-canvas2"), {
-      dataUrl: "Build/unity360x2ok4.data.unityweb",
-      frameworkUrl: "Build/unity360x2ok4.framework.js.unityweb",
-      codeUrl: "Build/unity360x2ok4.wasm.unityweb",
-      streamingAssetsUrl: "StreamingAssets",
-      companyName: "Your Company Name",
-      productName: "Your Product Name",
-      productVersion: "1.0",
-    }).then((unityInstance) => {
-      console.log("Unity instance loaded successfully!");
-    }).catch((error) => {
-      console.error("Error loading Unity instance:", error);
+  <canvas id="unity-canvas2" tabindex="-1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></canvas>
+
+<script src="Build/unity360x2ok4.loader.js"></script>
+<script>
+  var unityInstance;
+
+  // Initialize Unity WebGL instance
+  createUnityInstance(document.querySelector("#unity-canvas2"), {
+    dataUrl: "Build/unity360x2ok4.data.unityweb",
+    frameworkUrl: "Build/unity360x2ok4.framework.js.unityweb",
+    codeUrl: "Build/unity360x2ok4.wasm.unityweb",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "Your Company Name",
+    productName: "Your Product Name",
+    productVersion: "1.0",
+  }).then((instance) => {
+    unityInstance = instance;
+    console.log("Unity instance loaded successfully!");
+  }).catch((error) => {
+    console.error("Error loading Unity instance:", error);
+  });
+
+  // Gyroscope and Accelerometer Data Tracking
+  (function() {
+    var a = { x: null, y: null, z: null, alpha: null, beta: null, gamma: null };
+    var b = { x: 0, y: 0, z: 0, alpha: 0, beta: 0, gamma: 0 };
+    var c = null;
+
+    window.gyro = {};
+    gyro.frequency = 500;
+    
+    // Calibration of gyroscope data
+    gyro.calibrate = function() {
+      for (var prop in a) b[prop] = typeof a[prop] == "number" ? a[prop] : 0;
+    };
+
+    gyro.startTracking = function(callback) {
+      c = setInterval(function() {
+        callback(a);
+      }, gyro.frequency);
+    };
+
+    gyro.stopTracking = function() {
+      clearInterval(c);
+    };
+
+    gyro.getOrientation = function() {
+      return a;
+    };
+
+    gyro.startTracking(function(o) {
+      // Send gyro data to Unity
+      if (unityInstance) {
+        unityInstance.SendMessage("Player", "UpdateRotation", o.x + "," + o.y + "," + o.z);
+      }
     });
-  </script>
+
+    // Listen to deviceorientation for gyro data
+    window.addEventListener("deviceorientation", function(event) {
+      a.alpha = event.alpha || 0;
+      a.beta = event.beta || 0;
+      a.gamma = event.gamma || 0;
+    }, false);
+
+  })();
+</script>
+
 
   <!-- Unity scripts -->
   <script src="Build/unity360x2ok.loader.js"></script>
