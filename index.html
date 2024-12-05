@@ -178,7 +178,7 @@
                 <button class="btn btn-secondary" style="padding: 0.75rem 1.5rem; font-size: 1rem; border: none; border-radius: 5px; cursor: pointer; background-color: #6c757d; color: #fff;">Book now</button>
             </div>
         </div>
-    </section>
+      </section>
 
 
 
@@ -935,32 +935,27 @@
     });
   </script>
 
+<script src="gyro.js"></script> <!-- Include the gyro code -->
 <script>
-  // Ensure the page runs JavaScript only after it loads
-  document.addEventListener("DOMContentLoaded", function () {
-      const unityCanvas = document.getElementById('unity-canvas2');
-      const sensitivity = 0.5; // Adjust this value to change how sensitive the tilt is
+    // Sensitivity for tilt
+    const sensitivity = 0.5; // Adjust as needed
+    const transformFactor = 50; // Pixels to move per degree of tilt
 
-      // Ensure device orientation is supported
-      if (window.DeviceOrientationEvent) {
-          window.addEventListener('deviceorientation', handleTilt, true);
-      } else {
-          console.log("Device orientation is not supported.");
-      }
+    // Reference to the Unity canvas
+    const unityCanvas = document.getElementById('unity-canvas2');
 
-      function handleTilt(event) {
-          // Extract tilt data
-          const gamma = event.gamma || 0; // Left/right tilt (-90 to 90)
-          const beta = event.beta || 0; // Forward/back tilt (-180 to 180)
+    // Start tracking device motion
+    gyro.startTracking(function (o) {
+        const beta = o.beta || 0; // Forward/backward tilt
+        const gamma = o.gamma || 0; // Left/right tilt
 
-          // Map gamma and beta to scroll offsets
-          const scrollX = gamma * sensitivity;
-          const scrollY = beta * sensitivity;
+        // Map tilt values to canvas movement
+        const offsetX = gamma * sensitivity * transformFactor;
+        const offsetY = beta * sensitivity * transformFactor;
 
-          // Apply offsets to the Unity canvas (simulate scrolling/rotation)
-          unityCanvas.style.transform = `translate(${scrollX}px, ${scrollY}px)`;
-      }
-  });
+        // Apply translation to Unity canvas
+        unityCanvas.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+    });
 </script>
 </body>
 
