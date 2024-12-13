@@ -953,6 +953,24 @@
   });
 </script>
 
+<script src="Build/unitygyro2.loader.js"></script>
+<script>
+  // Initialize the Unity WebGL instance
+  createUnityInstance(document.querySelector("#unity-canvas4"), {
+    dataUrl: "Build/unitygyro2.data.unityweb",
+    frameworkUrl: "Build/unitygyro2.framework.js.unityweb",
+    codeUrl: "Build/unitygyro2.wasm.unityweb",
+    streamingAssetsUrl: "StreamingAssets",
+    companyName: "Your Company Name",
+    productName: "Your Product Name",
+    productVersion: "1.0",
+  }).then((unityInstance) => {
+    console.log("Unity instance loaded successfully!");
+  }).catch((error) => {
+    console.error("Error loading Unity instance:", error);
+  });
+</script>
+
 <script src="gyro.js"></script> <!-- Include the gyro code -->
 <script>
     // Sensitivity for tilt
